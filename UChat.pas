@@ -1,5 +1,4 @@
 ﻿unit UChat;
-
 interface
 
 uses
@@ -11,7 +10,8 @@ uses
   uADDAptIntf, uADStanAsync, uADDAptManager, Data.DB, uADCompDataSet,
   uADCompClient, uniTreeView, uniListBox, uniScrollBox, uniHTMLMemo, uniTimer,
   uniGUIForm, uniDBMemo, uniBasicGrid, uniDBGrid, Vcl.Menus, uniMainMenu,
-  uniHTMLFrame, uniTabControl, uniPageControl;
+  uniHTMLFrame, uniTabControl, uniPageControl, Vcl.AppEvnts, uniThreadTimer,
+  uniFileUpload;
 
 type
   TfrmChat = class(TUniForm)
@@ -67,14 +67,20 @@ type
     sql_MeusGruposid_grupo: TIntegerField;
     sql_MeusGruposid_participante: TIntegerField;
     sql_MsgGrupo: TADQuery;
-    sql_MsgGrupomsg: TStringField;
     sql_MsgGruponome: TStringField;
     sql_MsgGrupoid_msg_enviada: TIntegerField;
     sql_postGrupMsg: TADQuery;
+    sql_MsgGrupomsg: TBlobField;
+    sql_MsgGrupoid: TIntegerField;
     sql_postGrupMsgid_grupo: TIntegerField;
-    sql_postGrupMsgmsg: TStringField;
+    sql_postGrupMsgmsg: TBlobField;
     sql_postGrupMsgid_msg_enviada: TIntegerField;
     sql_postGrupMsgid: TIntegerField;
+    sql_postGrupMsgdata: TDateField;
+    sql_MsgGrupodata: TDateField;
+    sql_MsgGrupohora: TTimeField;
+    sql_postGrupMsghora: TTimeField;
+    up: TUniFileUpload;
     procedure CbStatusChange(Sender: TObject);
     procedure pnlOnMouseEnter(Sender: TObject);
     procedure pnlOnMouseLeave(Sender: TObject);
@@ -84,7 +90,6 @@ type
     procedure VerificaMsgTimer(Sender: TObject);
     procedure edtMsgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure UniFormShow(Sender: TObject);
-    procedure VerificaNovasMsg_ladoclienteTimer(Sender: TObject);
     procedure pnlEmojClick(Sender: TObject);
     procedure lbSmyleClick(Sender: TObject);
     procedure lbkkkClick(Sender: TObject);
@@ -110,6 +115,10 @@ type
     procedure lbP_drClick(Sender: TObject);
     procedure tab_GruposBeforeActivate(Sender: TObject;
       var AllowActivate: Boolean);
+    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure VerificaNovasMsg_ladoclienteTimer(Sender: TObject);
+    procedure imgUserOwnerClick(Sender: TObject);
+    procedure upCompleted(Sender: TObject; AStream: TFileStream);
   private
     qry_msg: TADQuery;
     pnl: TUniPanel;
@@ -145,7 +154,7 @@ type
     procedure sendEmotion(aEmo: string);
     procedure CbStatusOnMouseEnter(Sender: TObject);
     procedure CbStatusOnMouseLeave(Sender: TObject);
-    function validaUsuarioAtivo(id:integer):boolean;
+    function  validaUsuarioAtivo(id:integer):boolean;
   public
     property AlteraVisualizado: Boolean read FAlteraVisualizado write SetAlteraVisualizado;
     property PodeAcessar: Boolean read FPodeAcessar write SetPodeAcessar;
@@ -158,7 +167,7 @@ implementation
 
 {$R *.dfm}
 uses
-  uFuncoesUnigui, MainModule, ServerModule;
+  uFuncoesUnigui, MainModule, ServerModule, ActiveDs_TLB, Data.SqlTimSt;
 
 { TfrmChat }
 
@@ -185,11 +194,16 @@ begin
   BuscaUsuarioschat(' <> ');
 end;
 
+procedure TfrmChat.ApplicationEvents1Exception(Sender: TObject; E: Exception);
+begin
+//
+end;
+
 procedure TfrmChat.btnSendClick(Sender: TObject);
 const seq ='tb_chat_grupo_msg_id_seq';
 begin
   try
-
+     pnlContEmoj.Visible := False;
     if pg_control.TabIndex = tab_contatos.TabIndex then
     begin
 
@@ -228,8 +242,9 @@ begin
             Free;
           end;
         end;
-    end;
+      end;
      lastPositionScrollMemo;
+     edtMsg.Text := '';
     end
     else
     begin
@@ -242,14 +257,16 @@ begin
       sql_postGrupMsg.Close;
       sql_postGrupMsg.Open;
       sql_postGrupMsg.Append;
-
       sql_postGrupMsgid_grupo.AsInteger := FGrupo_id;
       sql_postGrupMsgmsg.AsString := edtMsg.Text;
       sql_postGrupMsgid_msg_enviada.AsInteger := FUsuarioOwner;
       sql_postGrupMsgid.AsInteger := GeraCodigo(UniMainModule.sql_livre_,seq);
+      sql_postGrupMsgdata.AsDateTime := now;
+      sql_postGrupMsghora.AsDateTime := now;
       sql_postGrupMsg.Post;
       CarregaMsgS(self);
       lastPositionScrollMemo;
+      edtMsg.Text := '';
     end;
   except
       on E: Exception do
@@ -278,9 +295,15 @@ begin
 
     while sql_msg.Eof = false do
     begin
-      MemoMSG.Lines.Add(iif(sql_msg.FieldByName('de').AsInteger <> FUsuarioOwner, '<div style=" text-align: left;  margin: auto;  width: 85%; background-color:#c4ffe2";  > <FONT size=1 COLOR=#349465 > <b> De: ' + sql_msg.FieldByName('denome').AsString + ' - ' + ' Para: ' + sql_msg.FieldByName('paraNome').AsString + ' - ' + sql_msg.FieldByName('data').AsString + ' - ' + sql_msg.FieldByName('hora').AsString + '</b></br></br>' + ' </FONT> </br></br>' + '<FONT size=2 COLOR="#5c6363" >' + sql_msg.FieldByName('msg').AsString
-        + '</br></br> </font> </div>', '<div style=" text-align: right;  margin: auto;  width: 90%; background-color:#c4ffff";  > <FONT size=1 COLOR=#0082b5 ><b> De: ' + sql_msg.FieldByName('denome').AsString + ' - ' + ' Para: ' + sql_msg.FieldByName('paraNome').AsString + ' - ' + sql_msg.FieldByName('data').AsString + ' - ' + sql_msg.FieldByName('hora').AsString + '</b></br></br></FONT>' + '<FONT size=2 COLOR="#5c6363" >' + sql_msg.FieldByName('msg').AsString + ' </br></br> </font> </div>'));
-
+      MemoMSG.Lines.Add(iif(sql_msg.FieldByName('de').AsInteger <> FUsuarioOwner,
+       '<div style=" text-align: left;  margin: auto;  width: 85%; background-color:#c4ffe2";  > <FONT size=1 COLOR=#349465 > <b> De: ' +
+              sql_msg.FieldByName('denome').AsString + ' - ' + ' Para: ' + sql_msg.FieldByName('paraNome').AsString +
+                    ' - ' + sql_msg.FieldByName('data').AsString + ' - ' + sql_msg.FieldByName('hora').AsString + '</b></br></br>' +
+            ' </FONT> </br></br>' + '<FONT size=2 COLOR="#5c6363" >' + sql_msg.FieldByName('msg').AsString +
+           '</br></br> </font> </div>',
+              '<div style=" text-align: right;  margin: auto;  width: 90%; background-color:#c4ffff";  > <FONT size=1 COLOR=#0082b5 ><b> De: ' +  sql_msg.FieldByName('denome').AsString + ' - ' + ' Para: ' + sql_msg.FieldByName('paraNome').AsString + ' - ' + sql_msg.FieldByName('data').AsString + ' - ' + sql_msg.FieldByName('hora').AsString +
+               '</b></br></br></FONT>' +
+            '<FONT size=2 COLOR="#5c6363" >' + sql_msg.FieldByName('msg').AsString + ' </br></br> </font> </div>'));
       MemoMsg.Lines.Add('</br>');
       MemoMSG.Lines.LineBreak;
       MarcaComoLida;
@@ -298,6 +321,7 @@ begin
   begin
     sql_MsgGrupo.Close;
     sql_MsgGrupo.ParamByName('ID_GRUPO').AsInteger := FGrupo_id;
+    sql_MsgGrupo.ParamByName('dt').AsDate := date - 45;
     sql_MsgGrupo.Open;
     MemoMsg.Lines.Clear;
     sql_MsgGrupo.First;
@@ -307,10 +331,12 @@ begin
     while sql_MsgGrupo.Eof = false do
     begin
       MemoMSG.Lines.Add(
-        '<div style=" text-align: left;  margin: auto;  width: 85%; background-color:#c4ffe2";  > <FONT size=1 COLOR=#349465 > <b> De: ' + sql_MsgGruponome.AsString + ' - ' + ' Para: ' + FGrupoNome +
-             '</b></br></br>' + ' </FONT> </br></br>' + '<FONT size=2 COLOR="#5c6363" >' +  sql_MsgGrupomsg.AsString
+        ' <div style=" text-align: left;  margin: auto;  width: 85%; background-color:#c4ffe2";  > <FONT size=1 COLOR=#349465 > <b> De: ' +
+            sql_MsgGruponome.AsString  + ' - ' + ' Para: ' + FGrupoNome +
+           '   &nbsp; Enviado: '+  sql_MsgGrupodata.AsString+ ' AS: ' + sql_MsgGrupohora.AsString +
+             '</b></br></br>' +
+       ' </FONT> </br></br>' + '<FONT size=2 COLOR="#5c6363" >' +  sql_MsgGrupomsg.AsString
         + '</br></br> </font> </div>');
-
       MemoMsg.Lines.Add('</br>');
       MemoMSG.Lines.LineBreak;
       sql_MsgGrupo.Next;
@@ -324,7 +350,9 @@ procedure TfrmChat.CarregaUsuarios;
 var
   i, tp: Integer;
   oldPara: string;
+  var img:TUniImage;
 begin
+ try
   //Altera o select para não carregar o Usuario Owner na tela
   if alteraSQL then // para não ficar carregando a todo momento
   begin
@@ -354,9 +382,9 @@ begin
         pnl.Parent := SBUserAtivos;
         pnl.Cursor := crHandPoint;
         pnl.Color := $00615856;
-        pnl.Width := 215;
+        pnl.Width := SBUserAtivos.Width -20;
         pnl.Height := 57;
-        pnl.Align := alTop;
+      //  pnl.Align := alTop;
         pnl.Top := tp;
         pnl.Visible := True;
         pnl.ShowCaption := False;
@@ -369,13 +397,20 @@ begin
         pnl.OnMouseEnter := pnlOnMouseEnter;
         pnl.OnMouseLeave := pnlOnMouseLeave;
 
+      //img perfil user
+       img := TUniImage.Create(self);
+       img.Parent := pnl;
+       img.Align := alLeft;
+       img.Picture.LoadFromFile(sql_chat_cliente.FieldByName('dir_img').AsString);
+       img.Proportional := true;
+
       //Label carrega o nome dos usuarios;
         lbUser := TUniLabel.Create(self);
         lbUser.Parent := pnl;
         lbUser.Cursor := crHandPoint;
         lbUser.Top := 1;
-        lbUser.Left := 1;
-        lbUser.Caption := FUser;
+        lbUser.Left := 56;
+        lbUser.Caption :=  FUser;
         lbUser.Name := 'lbUser' + IntToStr(i);
 
       //Label do departamento usuario
@@ -383,8 +418,8 @@ begin
         lblDep.Parent := pnl;
         lblDep.Cursor := crHandPoint;
         lblDep.Top := 14;
-        lblDep.Left := 4;
-        lblDep.Caption := FDep;
+        lblDep.Left := 57;
+        lblDep.Caption := copy( FDep,0,20);
         lblDep.Name := 'lbDep' + IntToStr(i);
 
 
@@ -393,15 +428,15 @@ begin
         lbSt.Parent := pnl;
         lbSt.Cursor := crHandPoint;
         lbSt.Top := 26;
-        lbSt.Left := 4;
+        lbSt.Left := 57;
         lbSt.Caption := sql_chat_cliente.FieldByName('status').AsString;
 
       //Cor do Status online verde ofline vermelho
         lbCorStatus := TUniLabel.Create(self);
         lbCorStatus.Parent := pnl;
         lbCorStatus.Cursor := crHandPoint;
-        lbCorStatus.Top := 22;
-        lbCorStatus.Left := (47);
+        lbCorStatus.Top := 26;
+        lbCorStatus.Left := (100);
         lbCorStatus.Font.Size := 13;
         lbCorStatus.Caption := '°';
         lbCorStatus.Font.Color := iif((sql_chat_cliente.FieldByName('status').AsString = 'On-line'), clLime, clRed);
@@ -411,8 +446,8 @@ begin
         lbNaoLidas := TUniLabel.Create(self);
         lbNaoLidas.Parent := pnl;
         lbNaoLidas.Font.Size := 8;
-        lbNaoLidas.Top := 29;
-        lbNaoLidas.Left := 160;
+        lbNaoLidas.Top := 30;
+        lbNaoLidas.Left := pnl.Width -25;
         lbNaoLidas.Caption := iif(naoLidas = '', '✓✓', naoLidas);
         lbNaoLidas.Name := 'lbNl' + IntToStr(i);
         lbNaoLidas.ShowHint := False;
@@ -439,6 +474,9 @@ begin
   end;
   Fpara := oldPara;
   VerificaMsg.Enabled := True;
+ except
+
+ end;
 end;
 
 procedure TfrmChat.CbStatusChange(Sender: TObject);
@@ -504,6 +542,11 @@ begin
   end;
 end;
 
+procedure TfrmChat.imgUserOwnerClick(Sender: TObject);
+begin
+ up.Execute;
+end;
+
 procedure TfrmChat.lastPositionScrollMemo;
 var
   HTMLMemoJSName: string;
@@ -544,7 +587,7 @@ procedure TfrmChat.BuscaUsuarioschat(prm: string);
 begin
   sql_chat_cliente.Close;
   sql_chat_cliente.SQL.Clear;
-  sql_chat_cliente.SQL.Add('  Select  cl.id_usuario , cl.gid_msg , cl.departamento, cl.status, max(msg.hora) as hora, max(msg.data) as data, min(msg.visualizado) as lido, cl.desativado ' +
+  sql_chat_cliente.SQL.Add('  Select  cl.id_usuario , cl.gid_msg , cl.departamento, cl.status, max(msg.hora) as hora, max(msg.data) as data, min(msg.visualizado) as lido, cl.desativado, cl.dir_img ' +
 
    ' from tb_chat_client cl left join tb_chat_msg msg on ( msg.de = id_usuario)' +
     '  where   msg.de ' + prm + '  :user group by  cl.gid_msg , cl.id_usuario ,   cl.departamento, cl.status  ' +
@@ -576,7 +619,7 @@ begin
     qry.Open;
   finally
     FIDuser := qry.FieldByName('id').AsInteger;
-    FUser :=  copy( qry.FieldByName('Nome').AsString,0,25);
+    FUser :=  copy( qry.FieldByName('Nome').AsString,0,20);
     FDep := qry.FieldByName('dep_nome').AsString;
     qry.Free;
   end;
@@ -688,15 +731,19 @@ var
 begin
   if PodeAcessar then
   begin
-    lbUserOwner.Caption := UniMainModule.Usuario.Nome;
+    lbUserOwner.Caption := Copy(UniMainModule.Usuario.Nome,0,20);
     FUsuarioOwner := UniMainModule.Usuario.Codigo;
     lbDep.Caption := UniMainModule.Usuario.Dep_nome;
+
     with sql_chat_cliente do
     begin
       Connection := UniMainModule.humanitarian_;
-      SQL.Add('Select id_usuario, gid_msg, departamento, msg_lida, status from tb_chat_client' + ' where id_usuario =:user order by msg_lida  ');
+      SQL.Add('Select id_usuario, gid_msg, departamento, msg_lida, status, dir_img from tb_chat_client' + ' where id_usuario =:user order by msg_lida  ');
       ParamByName('user').AsInteger := FUsuarioOwner;
       Open;
+
+      if FileExists(FieldByName('dir_img').AsString) then
+      imgUserOwner.Picture.LoadFromFile(FieldByName('dir_img').AsString);
 
       if RecordCount <= 0 then
       begin
@@ -727,7 +774,7 @@ begin
       //Carrega grupos do usuario logado
       criaGrupos;
 
-      CbStatus.Text := iif((sql_chat_cliente.FieldByName('status').asString = 'On-line'), 'On-line', 'Of-line');
+      CbStatus.Text := iif((sql_chat_cliente.FieldByName('status').asString = 'On-line'), 'On-line', 'Off-line');
       CbStatusChange(nil);
       alteraSQL := True;
       CarregaUsuarios;
@@ -830,6 +877,29 @@ begin
   sendEmotion('128530');
 end;
 
+procedure TfrmChat.upCompleted(Sender: TObject; AStream: TFileStream);
+var ext:string;
+var arquivo:string;
+begin
+  ext :=  ExtractFileExt(AStream.FileName);
+  imgUserOwner.LoadFromStream(AStream);
+  if not DirectoryExists(UniServerModule.FilesFolderPath+'Chat_img_user\') then
+     ForceDirectories(UniServerModule.FilesFolderPath+'Chat_img_user\');
+
+  arquivo := UniServerModule.FilesFolderPath+'Chat_img_user\'+ IntToStr(FUsuarioOwner) +ext;
+  imgUserOwner.Picture.SaveToFile(arquivo);
+
+  UniMainModule.sql_livre_.close;
+  UniMainModule.sql_livre_.SQL.Clear;
+  UniMainModule.sql_livre_.sql.Add('select  id_usuario, dir_img from tb_chat_client where id_usuario = :id ');
+  UniMainModule.sql_livre_.ParamByName('id').AsInteger := FUsuarioOwner;
+  UniMainModule.sql_livre_.open;
+  UniMainModule.sql_livre_.edit;
+  UniMainModule.sql_livre_.FieldByName('dir_img').AsString := arquivo;
+  UniMainModule.sql_livre_.post;
+
+end;
+
 function TfrmChat.validaUsuarioAtivo(id: integer): boolean;
 begin
   UniMainModule.sql_livre_.Close;
@@ -858,7 +928,6 @@ var
 begin
   j := 0;
   try
-
     for i := 0 to ComponentCount - 1 do // navega por todos os componentes
     begin
       if (Components[i] is TUniPanel) and (TUniPanel(Components[i]).Name = 'pnl_' + IntToStr(j)) then
@@ -881,6 +950,7 @@ end;
 procedure TfrmChat.VerificaNovasMsg_ladoclienteTimer(Sender: TObject);
 begin
   try
+    VerificaMsg.Enabled := false;
     verificaNovasMsg;
   except
 

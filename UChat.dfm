@@ -2,7 +2,7 @@ object frmChat: TfrmChat
   Left = 200
   Top = 40
   ClientHeight = 563
-  ClientWidth = 1022
+  ClientWidth = 1126
   Caption = ''
   OnShow = UniFormShow
   Color = 13290186
@@ -13,14 +13,14 @@ object frmChat: TfrmChat
   Font.Color = clHighlightText
   Font.Height = -12
   DesignSize = (
-    1022
+    1126
     563)
   PixelsPerInch = 96
   TextHeight = 14
   object pnlUsersAtivos: TUniPanel
     Left = 0
     Top = 35
-    Width = 233
+    Width = 241
     Height = 528
     Hint = ''
     Align = alLeft
@@ -31,7 +31,7 @@ object frmChat: TfrmChat
     object pnlUserLogado: TUniPanel
       Left = 1
       Top = 1
-      Width = 231
+      Width = 239
       Height = 69
       Cursor = crHandPoint
       Hint = ''
@@ -41,6 +41,7 @@ object frmChat: TfrmChat
       BorderStyle = ubsOutset
       Caption = ''
       Color = 4473924
+      ExplicitLeft = 0
       object imgUserOwner: TUniImage
         Left = 3
         Top = 5
@@ -116,6 +117,7 @@ object frmChat: TfrmChat
             'beforeInit=function beforeInit(sender, config)'#13#10'{'#13#10'   config.cls' +
             '='#39'avatar'#39';'#13#10'}')
         ScreenMask.Opacity = 1.000000000000000000
+        OnClick = imgUserOwnerClick
       end
       object lbDep: TUniLabel
         Left = 62
@@ -152,7 +154,7 @@ object frmChat: TfrmChat
         Text = 'On-line'
         Items.Strings = (
           'On-line'
-          'Of-Line')
+          'Off-Line')
         ItemIndex = 0
         ParentFont = False
         Font.Color = clDefault
@@ -164,9 +166,9 @@ object frmChat: TfrmChat
       end
     end
     object pg_control: TUniPageControl
-      Left = 3
-      Top = 71
-      Width = 227
+      Left = 1
+      Top = 73
+      Width = 237
       Height = 456
       Hint = ''
       ActivePage = tab_contatos
@@ -177,13 +179,14 @@ object frmChat: TfrmChat
         object SBUserAtivos: TUniScrollBox
           Left = 0
           Top = 0
-          Width = 219
+          Width = 229
           Height = 428
           Hint = ''
           Align = alClient
           Anchors = [akLeft, akTop, akRight, akBottom]
           Color = 6379606
           TabOrder = 0
+          ExplicitWidth = 222
         end
       end
       object tab_Grupos: TUniTabSheet
@@ -193,13 +196,14 @@ object frmChat: TfrmChat
         object SBGrupos: TUniScrollBox
           Left = 0
           Top = 0
-          Width = 219
+          Width = 229
           Height = 428
           Hint = ''
           Align = alClient
           Anchors = [akLeft, akTop, akRight, akBottom]
           Color = 8355711
           TabOrder = 0
+          ExplicitWidth = 219
         end
       end
     end
@@ -221,7 +225,7 @@ object frmChat: TfrmChat
   object pnlHeader: TUniPanel
     Left = 0
     Top = 0
-    Width = 1022
+    Width = 1126
     Height = 35
     Hint = ''
     Align = alTop
@@ -233,23 +237,24 @@ object frmChat: TfrmChat
     TabOrder = 1
     Caption = 'CHAT - INTRANET'
     Color = clWhite
+    ExplicitWidth = 1022
   end
   object pnlSendMsg: TUniPanel
-    Left = 236
-    Top = 487
-    Width = 778
-    Height = 75
+    Left = 247
+    Top = 482
+    Width = 871
+    Height = 81
     Hint = ''
     Anchors = [akLeft, akRight, akBottom]
     TabOrder = 2
     Caption = ''
     Color = 4473924
     DesignSize = (
-      778
-      75)
+      871
+      81)
     object lbSend: TUniLabel
       Left = 3
-      Top = 5
+      Top = -1
       Width = 58
       Height = 14
       Hint = ''
@@ -259,10 +264,10 @@ object frmChat: TfrmChat
       TabOrder = 1
     end
     object btnSend: TUniBitBtn
-      Left = 694
-      Top = 25
-      Width = 81
-      Height = 46
+      Left = 821
+      Top = 19
+      Width = 47
+      Height = 59
       Hint = ''
       Enabled = False
       Caption = 'Enviar'
@@ -274,10 +279,10 @@ object frmChat: TfrmChat
       OnClick = btnSendClick
     end
     object pnlEmoj: TUniPanel
-      Left = 644
+      Left = 762
       Top = 19
-      Width = 46
-      Height = 54
+      Width = 53
+      Height = 59
       Cursor = crHandPoint
       Hint = ''
       Enabled = False
@@ -292,10 +297,10 @@ object frmChat: TfrmChat
       OnClick = pnlEmojClick
     end
     object edtMsg: TUniHTMLMemo
-      Left = 3
-      Top = 21
-      Width = 637
-      Height = 52
+      Left = 9
+      Top = 14
+      Width = 747
+      Height = 64
       Hint = ''
       ParentFont = False
       Font.Color = 4737096
@@ -303,13 +308,14 @@ object frmChat: TfrmChat
       Color = clWindow
       TabOrder = 4
       ShowToolbar = False
+      OnKeyDown = edtMsgKeyDown
     end
   end
   object MemoMSG: TUniHTMLMemo
-    Left = 239
-    Top = 87
-    Width = 776
-    Height = 394
+    Left = 247
+    Top = 82
+    Width = 871
+    Height = 398
     Hint = ''
     BorderStyle = ubsFrameLowered
     ScrollBars = ssVertical
@@ -329,10 +335,10 @@ object frmChat: TfrmChat
     LayoutConfig.IgnorePosition = False
   end
   object pnl_Conv: TUniPanel
-    Left = 238
+    Left = 247
     Top = 38
-    Width = 776
-    Height = 42
+    Width = 871
+    Height = 38
     Hint = ''
     Anchors = [akLeft, akTop, akRight]
     ParentFont = False
@@ -343,8 +349,8 @@ object frmChat: TfrmChat
     Color = 4473924
   end
   object pnlContEmoj: TUniPanel
-    Left = 239
-    Top = 455
+    Left = 292
+    Top = 440
     Width = 765
     Height = 52
     Hint = ''
@@ -707,8 +713,8 @@ object frmChat: TfrmChat
   end
   object sql_chat_cliente: TADQuery
     Connection = UniMainModule.humanitarian_
-    Left = 672
-    Top = 32
+    Left = 688
+    Top = 8
   end
   object sql_msg: TADQuery
     Connection = UniMainModule.humanitarian_
@@ -723,8 +729,8 @@ object frmChat: TfrmChat
       '  and m.data>=:data  '
       '  and us.ativo = true'
       'order by data,hora ')
-    Left = 592
-    Top = 32
+    Left = 624
+    Top = 8
     ParamData = <
       item
         Name = 'GIDDE'
@@ -749,8 +755,8 @@ object frmChat: TfrmChat
       ' '
       '}')
     OnTimer = VerificaMsgTimer
-    Left = 800
-    Top = 32
+    Left = 632
+    Top = 120
   end
   object VerificaNovasMsg_ladocliente: TUniTimer
     Interval = 12000
@@ -772,8 +778,8 @@ object frmChat: TfrmChat
       '  join tb_chat_grupos g'
       '  on g.id_grupo = gp.id_grupo'
       'where gp.id_participante = :user ')
-    Left = 368
-    Top = 33
+    Left = 360
+    Top = 1
     ParamData = <
       item
         Name = 'USER'
@@ -801,8 +807,8 @@ object frmChat: TfrmChat
     SQL.Strings = (
       ''
       
-        'select distinct gm.msg,u.nome,gm.id_msg_enviada,gm.id from tb_ch' +
-        'at_grupo_msg gm'
+        'select distinct gm.msg,u.nome,gm.id_msg_enviada,gm.id,gm.data,gm' +
+        '.hora from tb_chat_grupo_msg gm'
       'join  tb_chat_grupo_participantes  gp'
       
         ' on gp.id_grupo = gm.id_grupo and gp.id_participante = gm.id_msg' +
@@ -810,23 +816,21 @@ object frmChat: TfrmChat
       ' join tb_user  u'
       '  on u.id = gp.id_participante  '
       '  where '
-      '    gp.id_grupo = :id_grupo'
-      ''
+      '     gp.id_grupo = :id_grupo'
+      '     and gm.data >=:dt'
       'order by gm.id ')
-    Left = 272
-    Top = 32
+    Left = 296
     ParamData = <
       item
         Name = 'ID_GRUPO'
         DataType = ftInteger
         ParamType = ptInput
         Value = Null
+      end
+      item
+        Name = 'DT'
+        ParamType = ptInput
       end>
-    object sql_MsgGrupomsg: TStringField
-      FieldName = 'msg'
-      Origin = 'msg'
-      Size = 8000
-    end
     object sql_MsgGruponome: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'nome'
@@ -837,21 +841,35 @@ object frmChat: TfrmChat
       FieldName = 'id_msg_enviada'
       Origin = 'id_msg_enviada'
     end
+    object sql_MsgGrupomsg: TBlobField
+      FieldName = 'msg'
+      Origin = 'msg'
+    end
+    object sql_MsgGrupoid: TIntegerField
+      FieldName = 'id'
+      Origin = 'id'
+    end
+    object sql_MsgGrupodata: TDateField
+      FieldName = 'data'
+      Origin = 'data'
+    end
+    object sql_MsgGrupohora: TTimeField
+      FieldName = 'hora'
+      Origin = 'hora'
+    end
   end
   object sql_postGrupMsg: TADQuery
     Connection = UniMainModule.humanitarian_
     SQL.Strings = (
       ' select * from tb_chat_grupo_msg limit 1')
-    Left = 464
-    Top = 32
+    Left = 456
     object sql_postGrupMsgid_grupo: TIntegerField
       FieldName = 'id_grupo'
       Origin = 'id_grupo'
     end
-    object sql_postGrupMsgmsg: TStringField
+    object sql_postGrupMsgmsg: TBlobField
       FieldName = 'msg'
       Origin = 'msg'
-      Size = 8000
     end
     object sql_postGrupMsgid_msg_enviada: TIntegerField
       FieldName = 'id_msg_enviada'
@@ -861,5 +879,27 @@ object frmChat: TfrmChat
       FieldName = 'id'
       Origin = 'id'
     end
+    object sql_postGrupMsgdata: TDateField
+      FieldName = 'data'
+      Origin = 'data'
+    end
+    object sql_postGrupMsghora: TTimeField
+      FieldName = 'hora'
+      Origin = 'hora'
+    end
+  end
+  object up: TUniFileUpload
+    OnCompleted = upCompleted
+    Title = 'Upload'
+    Messages.Uploading = 'Uploading...'
+    Messages.PleaseWait = 'Please Wait'
+    Messages.Cancel = 'Cancel'
+    Messages.Processing = 'Processing...'
+    Messages.UploadError = 'Upload Error'
+    Messages.Upload = 'Upload'
+    Messages.NoFileError = 'Please Select a File'
+    Messages.BrowseText = 'Browse...'
+    Left = 24
+    Top = 64
   end
 end
