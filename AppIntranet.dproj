@@ -1,0 +1,261 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E7056A07-FF69-42C1-9CE8-ADB3ED6D1247}</ProjectGuid>
+        <ProjectVersion>14.4</ProjectVersion>
+        <FrameworkType>VCL</FrameworkType>
+        <MainSource>AppIntranet.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Application</AppType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Base)'=='true') or '$(Base_OSX32)'!=''">
+        <Base_OSX32>true</Base_OSX32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Cfg_2)'=='true') or '$(Cfg_2_OSX32)'!=''">
+        <Cfg_2_OSX32>true</Cfg_2_OSX32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <GenDll>true</GenDll>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <Manifest_File>None</Manifest_File>
+        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_DcuOutput>c:\apps\dcu</DCC_DcuOutput>
+        <DCC_ExeOutput>c:\apps\appintranet</DCC_ExeOutput>
+        <DCC_E>false</DCC_E>
+        <DCC_N>false</DCC_N>
+        <DCC_S>false</DCC_S>
+        <DCC_F>false</DCC_F>
+        <DCC_K>false</DCC_K>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_OSX32)'!=''">
+        <DCC_UsePackage>AnyDAC_PhysMySQL_D17;DBXSqliteDriver;fmx;IndySystem;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DataSnapServer;DataSnapProviderClient;DbxCommonDriver;AnyDAC_PhysMSAcc_D17;dbxcds;AnyDAC_PhysSQLITE_D17;AnyDAC_ComI_D17;DBXOracleDriver;CustomIPTransport;AnyDAC_PhysMSSQL_D17;AnyDAC_Comp_D17;dsnap;IndyIPServer;AnyDAC_PhysODBC_D17;fmxase;IndyCore;AnyDAC_PhysPg_D17;IndyIPCommon;AnyDAC_PhysDb2_D17;AnyDAC_PhysASA_D17;inetdbxpress;AnyDAC_PhysOracle_D17;bindcompfmx;AnyDAC_GUIxForms_D17;rtl;dbrtl;DbxClientDriver;bindcomp;inetdb;AnyDAC_PhysTDBX_D17;xmlrtl;ibxpress;IndyProtocols;DBXMySQLDriver;bindengine;bindcompdbx;soaprtl;AnyDAC_PhysADS_D17;AnyDAC_PhysIB_D17;DBXInformixDriver;DBXFirebirdDriver;AnyDAC_Phys_D17;inet;fmxobj;DBXSybaseASADriver;fmxdae;dbexpress;DataSnapIndy10ServerTransport;IndyIPClient;$(DCC_UsePackage)</DCC_UsePackage>
+        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_UsePackage>AnyDAC_PhysMySQL_D17;ZComponent;DBXSqliteDriver;fmx;ACBr_Diversos;IndySystem;TeeDB;inetdbbde;vclib;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DataSnapServer;ACBr_synapse;DataSnapProviderClient;DBXSybaseASEDriver;DbxCommonDriver;vclimg;AnyDAC_PhysMSAcc_D17;dbxcds;ACBr_Comum;DatasnapConnectorsFreePascal;MetropolisUILiveTile;AnyDAC_PhysSQLITE_D17;vcldb;vcldsnap;uniGUI17m;DBXDb2Driver;frce;AnyDAC_ComI_D17;DBXOracleDriver;CustomIPTransport;AnyDAC_PhysMSSQL_D17;AnyDAC_Comp_D17;vclribbon;uniGUI17Chart;dsnap;IndyIPServer;uniGUI17Core;AnyDAC_PhysODBC_D17;fmxase;vcl;IndyCore;ACBr_SPED;AnyDAC_PhysPg_D17;DBXMSSQLDriver;CloudService;IndyIPCommon;FmxTeeUI;AnyDAC_PhysDb2_D17;SFUni;ACBr_Boleto;ACBr_DFeComum;ACBr_Sintegra;AnyDAC_PhysASA_D17;inetdbxpress;webdsnap;AnyDAC_PhysOracle_D17;adortl;ACBr_TCP;uniTools17;bindcompfmx;AnyDAC_GUIxForms_D17;vcldbx;uniGUI17;ZDbc;rtl;dbrtl;DbxClientDriver;ZPlain;bindcomp;inetdb;AnyDAC_PhysTDBX_D17;ACBr_NFe;Tee;DBXOdbcDriver;uniGUI17VCL;xmlrtl;svnui;ibxpress;ACBr_NFeDanfeRL;IndyProtocols;DBXMySQLDriver;bindengine;vclactnband;bindcompdbx;FMXTee;soaprtl;TeeUI;bindcompvcl;vclie;ZCore;vcltouch;uIndy17;websnap;AnyDAC_PhysADS_D17;AnyDAC_PhysIB_D17;SynEdit_R2013;VclSmp;DBXInformixDriver;DataSnapConnectors;DBXFirebirdDriver;dsnapcon;AnyDAC_Phys_D17;inet;ACBr_TXTComum;fmxobj;ZParseSql;vclx;ACBr_SPEDImportar;svn;DBXSybaseASADriver;fmxdae;bdertl;ADSIComps;dbexpress;DataSnapIndy10ServerTransport;IndyIPClient;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <DCC_UsePackage>AnyDAC_PhysMySQL_D17;DBXSqliteDriver;fmx;IndySystem;TeeDB;vclib;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DataSnapServer;DataSnapProviderClient;DBXSybaseASEDriver;DbxCommonDriver;vclimg;AnyDAC_PhysMSAcc_D17;dbxcds;DatasnapConnectorsFreePascal;AnyDAC_PhysSQLITE_D17;vcldb;vcldsnap;uniGUI17m;DBXDb2Driver;AnyDAC_ComI_D17;DBXOracleDriver;CustomIPTransport;AnyDAC_PhysMSSQL_D17;AnyDAC_Comp_D17;uniGUI17Chart;dsnap;IndyIPServer;uniGUI17Core;AnyDAC_PhysODBC_D17;fmxase;vcl;IndyCore;AnyDAC_PhysPg_D17;DBXMSSQLDriver;IndyIPCommon;AnyDAC_PhysDb2_D17;AnyDAC_PhysASA_D17;inetdbxpress;webdsnap;AnyDAC_PhysOracle_D17;adortl;uniTools17;bindcompfmx;AnyDAC_GUIxForms_D17;uniGUI17;rtl;dbrtl;DbxClientDriver;bindcomp;inetdb;AnyDAC_PhysTDBX_D17;Tee;DBXOdbcDriver;uniGUI17VCL;xmlrtl;ibxpress;IndyProtocols;DBXMySQLDriver;bindengine;vclactnband;bindcompdbx;soaprtl;TeeUI;bindcompvcl;vclie;vcltouch;uIndy17;websnap;AnyDAC_PhysADS_D17;AnyDAC_PhysIB_D17;SynEdit_R2013;VclSmp;DBXInformixDriver;DataSnapConnectors;DBXFirebirdDriver;dsnapcon;AnyDAC_Phys_D17;inet;fmxobj;vclx;DBXSybaseASADriver;fmxdae;dbexpress;DataSnapIndy10ServerTransport;IndyIPClient;$(DCC_UsePackage)</DCC_UsePackage>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_DebugDCUs>true</DCC_DebugDCUs>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <DCC_RemoteDebug>true</DCC_RemoteDebug>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <DCC_RemoteDebug>false</DCC_RemoteDebug>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_DebugInformation>false</DCC_DebugInformation>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_OSX32)'!=''">
+        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="ServerModule.pas">
+            <Form>UniServerModule</Form>
+            <DesignClass>TUniGUIServerModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="MainModule.pas">
+            <Form>UniMainModule</Form>
+            <DesignClass>TUniGUIMainModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Main.pas">
+            <Form>MainForm</Form>
+            <DesignClass>TUniForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uLogin.pas">
+            <Form>fmLogin</Form>
+            <DesignClass>TUniLoginForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Publico\uClassUsuario.pas"/>
+        <DCCReference Include="uManutencaoRamais.pas">
+            <Form>fmManutencaoRamais</Form>
+            <DesignClass>TUniForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uManutencaoImagens.pas">
+            <Form>fmManutencaoImagens</Form>
+            <DesignClass>TUniForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uManutencaoLinks.pas">
+            <Form>fmManutencaoLinks</Form>
+            <DesignClass>TUniForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uLembretes.pas">
+            <Form>fmLembrete</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TUniForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="ufrRamais.pas">
+            <Form>frRamais</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TUniFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="ufrLinksUteis.pas">
+            <Form>frLinksUteis</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TUniFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="ufrConfiguracoes.pas">
+            <Form>frConfiguracoes</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TUniFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Circulacao_new\uCronogramaEntrega.pas">
+            <Form>frmCronogramaEntrega</Form>
+            <DesignClass>TUniForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Publico\uFuncoesUnigui.pas"/>
+        <DCCReference Include="..\Publico\ActiveDs_TLB.pas"/>
+        <DCCReference Include="..\Publico\adshlp.pas"/>
+        <DCCReference Include="uCalendarioVisitas.pas">
+            <Form>FrmCalendarioVisitas</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TUniForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UChat.pas">
+            <Form>frmChat</Form>
+            <DesignClass>TUniFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uPrevisaoTempo.pas">
+            <Form>fmPrevisao</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TUniForm</DesignClass>
+        </DCCReference>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">AppIntranet.dpr</Source>
+                </Source>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">1</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">1046</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName"/>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName"/>
+                    <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                    <VersionInfoKeys Name="CFBundleName"/>
+                    <VersionInfoKeys Name="CFBundleDisplayName"/>
+                    <VersionInfoKeys Name="CFBundleIdentifier"/>
+                    <VersionInfoKeys Name="CFBundleVersion"/>
+                    <VersionInfoKeys Name="CFBundlePackageType"/>
+                    <VersionInfoKeys Name="CFBundleSignature"/>
+                    <VersionInfoKeys Name="CFBundleAllowMixedLocalizations"/>
+                    <VersionInfoKeys Name="CFBundleExecutable"/>
+                </VersionInfoKeys>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k170.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp170.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Deployment/>
+            <Platforms>
+                <Platform value="OSX32">False</Platform>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>
