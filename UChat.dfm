@@ -41,7 +41,6 @@ object frmChat: TfrmChat
       BorderStyle = ubsOutset
       Caption = ''
       Color = 4473924
-      ExplicitLeft = 0
       object imgUserOwner: TUniImage
         Left = 3
         Top = 5
@@ -176,6 +175,10 @@ object frmChat: TfrmChat
       object tab_contatos: TUniTabSheet
         Hint = ''
         Caption = 'Contatos'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 256
+        ExplicitHeight = 128
         object SBUserAtivos: TUniScrollBox
           Left = 0
           Top = 0
@@ -186,13 +189,16 @@ object frmChat: TfrmChat
           Anchors = [akLeft, akTop, akRight, akBottom]
           Color = 6379606
           TabOrder = 0
-          ExplicitWidth = 222
         end
       end
       object tab_Grupos: TUniTabSheet
         Hint = ''
         Caption = 'Grupos'
         OnBeforeActivate = tab_GruposBeforeActivate
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 256
+        ExplicitHeight = 128
         object SBGrupos: TUniScrollBox
           Left = 0
           Top = 0
@@ -203,7 +209,6 @@ object frmChat: TfrmChat
           Anchors = [akLeft, akTop, akRight, akBottom]
           Color = 8355711
           TabOrder = 0
-          ExplicitWidth = 219
         end
       end
     end
@@ -237,7 +242,6 @@ object frmChat: TfrmChat
     TabOrder = 1
     Caption = 'CHAT - INTRANET'
     Color = clWhite
-    ExplicitWidth = 1022
   end
   object pnlSendMsg: TUniPanel
     Left = 247
@@ -255,8 +259,8 @@ object frmChat: TfrmChat
     object lbSend: TUniLabel
       Left = 3
       Top = -1
-      Width = 58
-      Height = 14
+      Width = 51
+      Height = 13
       Hint = ''
       Caption = 'Mensagem'
       ParentColor = False

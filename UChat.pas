@@ -384,7 +384,7 @@ begin
         pnl.Color := $00615856;
         pnl.Width := SBUserAtivos.Width -20;
         pnl.Height := 57;
-      //  pnl.Align := alTop;
+        pnl.Align := alTop;
         pnl.Top := tp;
         pnl.Visible := True;
         pnl.ShowCaption := False;
@@ -398,11 +398,14 @@ begin
         pnl.OnMouseLeave := pnlOnMouseLeave;
 
       //img perfil user
+      if FileExists(sql_chat_cliente.FieldByName('dir_img').AsString) then
+      begin
        img := TUniImage.Create(self);
        img.Parent := pnl;
        img.Align := alLeft;
        img.Picture.LoadFromFile(sql_chat_cliente.FieldByName('dir_img').AsString);
        img.Proportional := true;
+      end;
 
       //Label carrega o nome dos usuarios;
         lbUser := TUniLabel.Create(self);
