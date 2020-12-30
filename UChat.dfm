@@ -1,27 +1,25 @@
 object frmChat: TfrmChat
   Left = 200
   Top = 40
-  ClientHeight = 563
+  ClientHeight = 579
   ClientWidth = 1126
   Caption = ''
   OnShow = UniFormShow
   Color = 13290186
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Position = poDesktopCenter
   OldCreateOrder = False
+  BorderIcons = [biSystemMenu, biMaximize]
   MonitoredKeys.Keys = <>
   Font.Color = clHighlightText
   Font.Height = -12
-  DesignSize = (
-    1126
-    563)
   PixelsPerInch = 96
   TextHeight = 14
   object pnlUsersAtivos: TUniPanel
     Left = 0
     Top = 35
     Width = 241
-    Height = 528
+    Height = 544
     Hint = ''
     Align = alLeft
     Anchors = [akLeft, akTop, akBottom]
@@ -166,24 +164,22 @@ object frmChat: TfrmChat
     end
     object pg_control: TUniPageControl
       Left = 1
-      Top = 73
+      Top = 70
       Width = 237
-      Height = 456
+      Height = 473
       Hint = ''
       ActivePage = tab_contatos
+      Align = alLeft
+      Anchors = [akLeft, akTop, akRight, akBottom]
       TabOrder = 2
       object tab_contatos: TUniTabSheet
         Hint = ''
         Caption = 'Contatos'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 256
-        ExplicitHeight = 128
         object SBUserAtivos: TUniScrollBox
           Left = 0
           Top = 0
           Width = 229
-          Height = 428
+          Height = 445
           Hint = ''
           Align = alClient
           Anchors = [akLeft, akTop, akRight, akBottom]
@@ -195,15 +191,11 @@ object frmChat: TfrmChat
         Hint = ''
         Caption = 'Grupos'
         OnBeforeActivate = tab_GruposBeforeActivate
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 256
-        ExplicitHeight = 128
         object SBGrupos: TUniScrollBox
           Left = 0
           Top = 0
           Width = 229
-          Height = 428
+          Height = 445
           Hint = ''
           Align = alClient
           Anchors = [akLeft, akTop, akRight, akBottom]
@@ -227,6 +219,551 @@ object frmChat: TfrmChat
       TabOrder = 3
     end
   end
+  object pnlMsgS: TUniPanel
+    Left = 253
+    Top = 35
+    Width = 873
+    Height = 544
+    Hint = ''
+    Align = alRight
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    TabOrder = 1
+    Caption = 'pnlMsgS'
+    object MemoMSG: TUniHTMLMemo
+      Left = 1
+      Top = 39
+      Width = 871
+      Height = 398
+      Hint = ''
+      BorderStyle = ubsFrameLowered
+      ScrollBars = ssVertical
+      Lines.Strings = (
+        '')
+      ParentFont = False
+      Font.Color = clHighlightText
+      Font.Height = -13
+      Font.Name = 'Roboto'
+      Align = alTop
+      Anchors = [akLeft, akTop, akRight]
+      ReadOnly = True
+      Color = clWindow
+      TabOrder = 1
+      TabStop = False
+      ShowToolbar = False
+      ScreenMask.Color = 15658734
+      LayoutConfig.IgnorePosition = False
+    end
+    object pnl_Conv: TUniPanel
+      Left = 1
+      Top = 1
+      Width = 871
+      Height = 38
+      Hint = ''
+      Align = alTop
+      Anchors = [akLeft, akTop, akRight]
+      ParentFont = False
+      Font.Color = clHighlightText
+      Font.Height = -13
+      TabOrder = 2
+      Caption = ''
+      Color = 4473924
+    end
+    object pnlSendMsg: TUniPanel
+      Left = 1
+      Top = 443
+      Width = 871
+      Height = 100
+      Hint = ''
+      Constraints.MaxHeight = 500
+      Constraints.MinHeight = 100
+      Align = alClient
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      TabOrder = 3
+      Caption = ''
+      Color = 4473924
+      DesignSize = (
+        871
+        100)
+      object lbSend: TUniLabel
+        Left = 3
+        Top = -1
+        Width = 58
+        Height = 14
+        Hint = ''
+        Caption = 'Mensagem'
+        ParentColor = False
+        Color = clWhite
+        TabOrder = 1
+      end
+      object btnSend: TUniBitBtn
+        Left = 821
+        Top = 37
+        Width = 47
+        Height = 59
+        Hint = ''
+        Enabled = False
+        Caption = 'Enviar'
+        Anchors = [akRight, akBottom]
+        ParentFont = False
+        Font.Color = clDefault
+        Font.Height = -12
+        TabOrder = 2
+        OnClick = btnSendClick
+      end
+      object pnlEmoj: TUniPanel
+        Left = 762
+        Top = 36
+        Width = 53
+        Height = 59
+        Cursor = crHandPoint
+        Hint = ''
+        Enabled = False
+        Anchors = [akRight, akBottom]
+        ParentFont = False
+        Font.Color = clHighlightText
+        Font.Height = -28
+        Font.Name = 'Roboto'
+        TabOrder = 3
+        Caption = #55357#56832
+        ParentBackground = True
+        Color = 12877096
+        OnClick = pnlEmojClick
+      end
+      object edtMsg: TUniHTMLMemo
+        Left = 9
+        Top = 16
+        Width = 747
+        Height = 80
+        Hint = ''
+        ParentFont = False
+        Font.Color = 4737096
+        Font.Height = -27
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Color = clWindow
+        TabOrder = 4
+        ClientEvents.ExtEvents.Strings = (
+          
+            'initialize=function initialize(sender, eOpts)'#13#10'{'#13#10'   var me=send' +
+            'er;'#13#10'    me.getDoc().addEventListener("keydown", function(e){'#13#10' ' +
+            '   if (e.shiftKey) {'#13#10'    } else'#13#10'        if ( e.keyCode == 13 )' +
+            ' {'#13#10'         ajaxRequest(me, '#39'keydown'#39', ['#39'key='#39'+e.keyCode])'#13#10'   ' +
+            '   }'#13#10'    });'#13#10'}')
+        ShowToolbar = False
+        LayoutConfig.Split = True
+        FieldLabelFont.Color = 4737096
+        FieldLabelFont.Height = -16
+        OnKeyDown = edtMsgKeyDown
+        OnClick = edtMsgClick
+      end
+      object pnlContEmoj: TUniPanel
+        Left = 2
+        Top = -2
+        Width = 813
+        Height = 38
+        Hint = ''
+        Visible = False
+        Anchors = [akRight, akBottom]
+        TabOrder = 5
+        Caption = ''
+        Color = 12877096
+        object lbSmyle: TUniLabel
+          Left = 673
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56832
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 1
+          OnClick = lbSmyleClick
+        end
+        object lbkkk: TUniLabel
+          Left = 641
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56834
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 2
+          OnClick = lbkkkClick
+        end
+        object UniLabel3: TUniLabel
+          Left = 609
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56837
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 3
+          OnClick = UniLabel3Click
+        end
+        object UniLabel4: TUniLabel
+          Left = 577
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56841
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 4
+          OnClick = UniLabel4Click
+        end
+        object UniLabel5: TUniLabel
+          Left = 545
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56843
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 5
+          OnClick = UniLabel5Click
+        end
+        object UniLabel6: TUniLabel
+          Left = 513
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56877
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 6
+          OnClick = UniLabel6Click
+        end
+        object UniLabel7: TUniLabel
+          Left = 481
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56845
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 7
+          OnClick = UniLabel7Click
+        end
+        object UniLabel8: TUniLabel
+          Left = 449
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56847
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 8
+          OnClick = UniLabel8Click
+        end
+        object UniLabel10: TUniLabel
+          Left = 417
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56856
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 10
+          OnClick = UniLabel10Click
+        end
+        object UniLabel12: TUniLabel
+          Left = 385
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56848
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 12
+          OnClick = UniLabel12Click
+        end
+        object UniLabel9: TUniLabel
+          Left = 353
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56850
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 9
+          OnClick = UniLabel9Click
+        end
+        object UniLabel11: TUniLabel
+          Left = 321
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56851
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 11
+          OnClick = UniLabel11Click
+        end
+        object UniLabel13: TUniLabel
+          Left = 289
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56852
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 13
+          OnClick = UniLabel13Click
+        end
+        object UniLabel14: TUniLabel
+          Left = 257
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56860
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 14
+          OnClick = UniLabel14Click
+        end
+        object UniLabel15: TUniLabel
+          Left = 225
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56868
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 15
+          OnClick = UniLabel15Click
+        end
+        object UniLabel16: TUniLabel
+          Left = 193
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56872
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 16
+          OnClick = UniLabel16Click
+        end
+        object UniLabel17: TUniLabel
+          Left = 161
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56876
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 17
+          OnClick = UniLabel17Click
+        end
+        object UniLabel19: TUniLabel
+          Left = 129
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56881
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 18
+          OnClick = UniLabel19Click
+        end
+        object UniLabel20: TUniLabel
+          Left = 97
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56884
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 19
+          OnClick = UniLabel20Click
+        end
+        object UniLabel21: TUniLabel
+          Left = 65
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55358#56595
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 20
+          OnClick = UniLabel21Click
+        end
+        object lbP_dr: TUniLabel
+          Left = 705
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55358#56622
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 21
+          OnClick = lbP_drClick
+        end
+        object lblOculos: TUniLabel
+          Left = 33
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55357#56846
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 22
+          OnClick = lblOculosClick
+        end
+        object lblPensando: TUniLabel
+          Left = 1
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #55358#56596
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 23
+          OnClick = lblPensandoClick
+        end
+        object lblCafe: TUniLabel
+          Left = 737
+          Top = 1
+          Width = 32
+          Height = 32
+          Hint = ''
+          Caption = #9749
+          Align = alLeft
+          Anchors = [akLeft, akTop, akBottom]
+          ParentFont = False
+          Font.Color = clHighlightText
+          Font.Height = -28
+          Font.Name = 'Roboto'
+          TabOrder = 24
+          OnClick = lblCafeClick
+        end
+      end
+    end
+    object spl2: TUniSplitter
+      Left = 1
+      Top = 437
+      Width = 871
+      Height = 6
+      Cursor = crVSplit
+      Hint = ''
+      Align = alTop
+      ParentColor = False
+      Color = 4865603
+    end
+  end
   object pnlHeader: TUniPanel
     Left = 0
     Top = 0
@@ -239,481 +776,19 @@ object frmChat: TfrmChat
     Font.Color = clBtnText
     Font.Height = -12
     Font.Style = [fsBold]
-    TabOrder = 1
+    TabOrder = 2
     Caption = 'CHAT - INTRANET'
     Color = clWhite
   end
-  object pnlSendMsg: TUniPanel
+  object spl1: TUniSplitter
     Left = 247
-    Top = 482
-    Width = 871
-    Height = 81
+    Top = 35
+    Width = 6
+    Height = 544
     Hint = ''
-    Anchors = [akLeft, akRight, akBottom]
-    TabOrder = 2
-    Caption = ''
-    Color = 4473924
-    DesignSize = (
-      871
-      81)
-    object lbSend: TUniLabel
-      Left = 3
-      Top = -1
-      Width = 51
-      Height = 13
-      Hint = ''
-      Caption = 'Mensagem'
-      ParentColor = False
-      Color = clWhite
-      TabOrder = 1
-    end
-    object btnSend: TUniBitBtn
-      Left = 821
-      Top = 19
-      Width = 47
-      Height = 59
-      Hint = ''
-      Enabled = False
-      Caption = 'Enviar'
-      Anchors = [akTop, akRight, akBottom]
-      ParentFont = False
-      Font.Color = clDefault
-      Font.Height = -12
-      TabOrder = 2
-      OnClick = btnSendClick
-    end
-    object pnlEmoj: TUniPanel
-      Left = 762
-      Top = 19
-      Width = 53
-      Height = 59
-      Cursor = crHandPoint
-      Hint = ''
-      Enabled = False
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 3
-      Caption = #55357#56832
-      ParentBackground = True
-      Color = 12877096
-      OnClick = pnlEmojClick
-    end
-    object edtMsg: TUniHTMLMemo
-      Left = 9
-      Top = 14
-      Width = 747
-      Height = 64
-      Hint = ''
-      ParentFont = False
-      Font.Color = 4737096
-      Font.Height = -16
-      Color = clWindow
-      TabOrder = 4
-      ShowToolbar = False
-      OnKeyDown = edtMsgKeyDown
-    end
-  end
-  object MemoMSG: TUniHTMLMemo
-    Left = 247
-    Top = 82
-    Width = 871
-    Height = 398
-    Hint = ''
-    BorderStyle = ubsFrameLowered
-    ScrollBars = ssVertical
-    Lines.Strings = (
-      '')
-    ParentFont = False
-    Font.Color = clHighlightText
-    Font.Height = -13
-    Font.Name = 'Roboto'
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    ReadOnly = True
-    Color = clWindow
-    TabOrder = 3
-    TabStop = False
-    ShowToolbar = False
-    ScreenMask.Color = 15658734
-    LayoutConfig.IgnorePosition = False
-  end
-  object pnl_Conv: TUniPanel
-    Left = 247
-    Top = 38
-    Width = 871
-    Height = 38
-    Hint = ''
-    Anchors = [akLeft, akTop, akRight]
-    ParentFont = False
-    Font.Color = clHighlightText
-    Font.Height = -13
-    TabOrder = 4
-    Caption = ''
-    Color = 4473924
-  end
-  object pnlContEmoj: TUniPanel
-    Left = 292
-    Top = 440
-    Width = 765
-    Height = 52
-    Hint = ''
-    Visible = False
-    TabOrder = 5
-    Caption = ''
-    Color = 12877096
-    object lbSmyle: TUniLabel
-      Left = 1
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56832
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 1
-      OnClick = lbSmyleClick
-    end
-    object lbkkk: TUniLabel
-      Left = 33
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56834
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 2
-      OnClick = lbkkkClick
-    end
-    object UniLabel3: TUniLabel
-      Left = 65
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56837
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 3
-      OnClick = UniLabel3Click
-    end
-    object UniLabel4: TUniLabel
-      Left = 97
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56841
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 4
-      OnClick = UniLabel4Click
-    end
-    object UniLabel5: TUniLabel
-      Left = 129
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56843
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 5
-      OnClick = UniLabel5Click
-    end
-    object UniLabel6: TUniLabel
-      Left = 161
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56877
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 6
-      OnClick = UniLabel6Click
-    end
-    object UniLabel7: TUniLabel
-      Left = 193
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56845
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 7
-      OnClick = UniLabel7Click
-    end
-    object UniLabel8: TUniLabel
-      Left = 225
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56847
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 8
-      OnClick = UniLabel8Click
-    end
-    object UniLabel10: TUniLabel
-      Left = 257
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56856
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 10
-      OnClick = UniLabel10Click
-    end
-    object UniLabel12: TUniLabel
-      Left = 289
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56848
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 12
-      OnClick = UniLabel12Click
-    end
-    object UniLabel9: TUniLabel
-      Left = 321
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56850
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 9
-      OnClick = UniLabel9Click
-    end
-    object UniLabel11: TUniLabel
-      Left = 353
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56851
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 11
-      OnClick = UniLabel11Click
-    end
-    object UniLabel13: TUniLabel
-      Left = 385
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56852
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 13
-      OnClick = UniLabel13Click
-    end
-    object UniLabel14: TUniLabel
-      Left = 417
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56860
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 14
-      OnClick = UniLabel14Click
-    end
-    object UniLabel15: TUniLabel
-      Left = 449
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56868
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 15
-      OnClick = UniLabel15Click
-    end
-    object UniLabel16: TUniLabel
-      Left = 481
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56872
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 16
-      OnClick = UniLabel16Click
-    end
-    object UniLabel17: TUniLabel
-      Left = 513
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56876
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 17
-      OnClick = UniLabel17Click
-    end
-    object UniLabel18: TUniLabel
-      Left = 545
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56877
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 18
-      OnClick = UniLabel18Click
-    end
-    object UniLabel19: TUniLabel
-      Left = 577
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56881
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 19
-      OnClick = UniLabel19Click
-    end
-    object UniLabel20: TUniLabel
-      Left = 609
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55357#56884
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 20
-      OnClick = UniLabel20Click
-    end
-    object UniLabel21: TUniLabel
-      Left = 641
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55358#56595
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 21
-      OnClick = UniLabel21Click
-    end
-    object lbP_dr: TUniLabel
-      Left = 673
-      Top = 1
-      Width = 32
-      Height = 32
-      Hint = ''
-      Caption = #55358#56622
-      Align = alLeft
-      Anchors = [akLeft, akTop, akBottom]
-      ParentFont = False
-      Font.Color = clHighlightText
-      Font.Height = -28
-      Font.Name = 'Roboto'
-      TabOrder = 22
-      OnClick = lbP_drClick
-    end
+    Align = alRight
+    ParentColor = False
+    Color = clBtnFace
   end
   object sql_chat_cliente: TADQuery
     Connection = UniMainModule.humanitarian_
@@ -738,17 +813,64 @@ object frmChat: TfrmChat
     ParamData = <
       item
         Name = 'GIDDE'
+        DataType = ftString
         ParamType = ptInput
         Value = Null
       end
       item
         Name = 'GIDPARA'
+        DataType = ftString
         ParamType = ptInput
+        Value = Null
       end
       item
         Name = 'DATA'
+        DataType = ftDate
         ParamType = ptInput
+        Value = Null
       end>
+    object sql_msgde: TIntegerField
+      FieldName = 'de'
+      Origin = 'de'
+    end
+    object sql_msgdenome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'denome'
+      Origin = 'denome'
+      Size = 100
+    end
+    object sql_msgpara: TIntegerField
+      FieldName = 'para'
+      Origin = 'para'
+    end
+    object sql_msgparanome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'paranome'
+      Origin = 'paranome'
+      Size = 100
+    end
+    object sql_msgmsg: TBlobField
+      FieldName = 'msg'
+      Origin = 'msg'
+    end
+    object sql_msggid_msg: TStringField
+      FieldName = 'gid_msg'
+      Origin = 'gid_msg'
+      Size = 38
+    end
+    object sql_msgdata: TDateField
+      FieldName = 'data'
+      Origin = 'data'
+    end
+    object sql_msgvisualizado: TStringField
+      FieldName = 'visualizado'
+      Origin = 'visualizado'
+      Size = 1
+    end
+    object sql_msghora: TTimeField
+      FieldName = 'hora'
+      Origin = 'hora'
+    end
   end
   object VerificaMsg: TUniTimer
     Interval = 3000
@@ -833,8 +955,14 @@ object frmChat: TfrmChat
       end
       item
         Name = 'DT'
+        DataType = ftDate
         ParamType = ptInput
+        Value = Null
       end>
+    object sql_MsgGrupomsg: TBlobField
+      FieldName = 'msg'
+      Origin = 'msg'
+    end
     object sql_MsgGruponome: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'nome'
@@ -844,10 +972,6 @@ object frmChat: TfrmChat
     object sql_MsgGrupoid_msg_enviada: TIntegerField
       FieldName = 'id_msg_enviada'
       Origin = 'id_msg_enviada'
-    end
-    object sql_MsgGrupomsg: TBlobField
-      FieldName = 'msg'
-      Origin = 'msg'
     end
     object sql_MsgGrupoid: TIntegerField
       FieldName = 'id'

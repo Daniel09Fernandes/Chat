@@ -11,7 +11,8 @@ uses
   uADCompClient, uniTreeView, uniListBox, uniScrollBox, uniHTMLMemo, uniTimer,
   uniGUIForm, uniDBMemo, uniBasicGrid, uniDBGrid, Vcl.Menus, uniMainMenu,
   uniHTMLFrame, uniTabControl, uniPageControl, Vcl.AppEvnts, uniThreadTimer,
-  uniFileUpload;
+  uniFileUpload, uADGUIxIntf, uADStanDef, uADStanPool, uADPhysManager,
+  uniSplitter;
 
 type
   TfrmChat = class(TUniForm)
@@ -52,7 +53,6 @@ type
     UniLabel15: TUniLabel;
     UniLabel16: TUniLabel;
     UniLabel17: TUniLabel;
-    UniLabel18: TUniLabel;
     UniLabel19: TUniLabel;
     UniLabel20: TUniLabel;
     UniLabel21: TUniLabel;
@@ -63,24 +63,39 @@ type
     tab_Grupos: TUniTabSheet;
     SBGrupos: TUniScrollBox;
     sql_MeusGrupos: TADQuery;
+    sql_MsgGrupo: TADQuery;
+    sql_postGrupMsg: TADQuery;
+    up: TUniFileUpload;
+    lblOculos: TUniLabel;
+    lblPensando: TUniLabel;
+    pnlMsgS: TUniPanel;
+    spl1: TUniSplitter;
+    spl2: TUniSplitter;
+    lblCafe: TUniLabel;
+    sql_MsgGrupomsg: TBlobField;
+    sql_MsgGruponome: TStringField;
+    sql_MsgGrupoid_msg_enviada: TIntegerField;
+    sql_MsgGrupoid: TIntegerField;
+    sql_MsgGrupodata: TDateField;
+    sql_MsgGrupohora: TTimeField;
     sql_MeusGruposNome: TStringField;
     sql_MeusGruposid_grupo: TIntegerField;
     sql_MeusGruposid_participante: TIntegerField;
-    sql_MsgGrupo: TADQuery;
-    sql_MsgGruponome: TStringField;
-    sql_MsgGrupoid_msg_enviada: TIntegerField;
-    sql_postGrupMsg: TADQuery;
-    sql_MsgGrupomsg: TBlobField;
-    sql_MsgGrupoid: TIntegerField;
     sql_postGrupMsgid_grupo: TIntegerField;
     sql_postGrupMsgmsg: TBlobField;
     sql_postGrupMsgid_msg_enviada: TIntegerField;
     sql_postGrupMsgid: TIntegerField;
     sql_postGrupMsgdata: TDateField;
-    sql_MsgGrupodata: TDateField;
-    sql_MsgGrupohora: TTimeField;
     sql_postGrupMsghora: TTimeField;
-    up: TUniFileUpload;
+    sql_msgde: TIntegerField;
+    sql_msgdenome: TStringField;
+    sql_msgpara: TIntegerField;
+    sql_msgparanome: TStringField;
+    sql_msgmsg: TBlobField;
+    sql_msggid_msg: TStringField;
+    sql_msgdata: TDateField;
+    sql_msgvisualizado: TStringField;
+    sql_msghora: TTimeField;
     procedure CbStatusChange(Sender: TObject);
     procedure pnlOnMouseEnter(Sender: TObject);
     procedure pnlOnMouseLeave(Sender: TObject);
@@ -88,7 +103,6 @@ type
     procedure pnlDbClick_grupo(Sender: TObject);
     procedure btnSendClick(Sender: TObject);
     procedure VerificaMsgTimer(Sender: TObject);
-    procedure edtMsgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure UniFormShow(Sender: TObject);
     procedure pnlEmojClick(Sender: TObject);
     procedure lbSmyleClick(Sender: TObject);
@@ -119,6 +133,11 @@ type
     procedure VerificaNovasMsg_ladoclienteTimer(Sender: TObject);
     procedure imgUserOwnerClick(Sender: TObject);
     procedure upCompleted(Sender: TObject; AStream: TFileStream);
+    procedure lblOculosClick(Sender: TObject);
+    procedure lblPensandoClick(Sender: TObject);
+    procedure edtMsgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtMsgClick(Sender: TObject);
+    procedure lblCafeClick(Sender: TObject);
   private
     qry_msg: TADQuery;
     pnl: TUniPanel;
@@ -138,6 +157,8 @@ type
     FMoveScrolMemo: Boolean;
     FGrupo_id:integer;
     FGrupoNome:String;
+    arrEmo:TArray<string>;
+    indArrEmo:integer;
     function AlterarStatus: TColor;
     procedure CarregaUsuarios;
     procedure criaGrupos;
@@ -155,6 +176,8 @@ type
     procedure CbStatusOnMouseEnter(Sender: TObject);
     procedure CbStatusOnMouseLeave(Sender: TObject);
     function  validaUsuarioAtivo(id:integer):boolean;
+    function emotionToStr(txt:string):string;
+    procedure LimpaArrayEmotion;
   public
     property AlteraVisualizado: Boolean read FAlteraVisualizado write SetAlteraVisualizado;
     property PodeAcessar: Boolean read FPodeAcessar write SetPodeAcessar;
@@ -201,9 +224,12 @@ end;
 
 procedure TfrmChat.btnSendClick(Sender: TObject);
 const seq ='tb_chat_grupo_msg_id_seq';
+var s:string;
 begin
+   edtMsg.Text := '<span style="font-size:18px;"> ' + edtMsg.Text + ' </span>';
   try
      pnlContEmoj.Visible := False;
+
     if pg_control.TabIndex = tab_contatos.TabIndex then
     begin
 
@@ -217,7 +243,7 @@ begin
         FieldByName('de').AsInteger := FUsuarioOwner;
         FieldByName('para').AsInteger := StrToInt(Fpara);
         FieldByName('gid_msg').AsString := hash;
-        FieldByName('msg').AsString := edtMsg.Text;
+        TBlobField(FieldByName('msg')).AsString := edtMsg.Text;
         FieldByName('data').AsDateTime := Now;
         FieldByName('Visualizado').AsString := 'N';
         FieldByName('hora').AsDateTime := Now;
@@ -258,7 +284,8 @@ begin
       sql_postGrupMsg.Open;
       sql_postGrupMsg.Append;
       sql_postGrupMsgid_grupo.AsInteger := FGrupo_id;
-      sql_postGrupMsgmsg.AsString := edtMsg.Text;
+      TBlobField(sql_postGrupMsgmsg).AsString := edtMsg.Lines.Text;
+      sql_postGrupMsgmsg.AsString :=  emotionToStr(sql_postGrupMsgmsg.AsString);
       sql_postGrupMsgid_msg_enviada.AsInteger := FUsuarioOwner;
       sql_postGrupMsgid.AsInteger := GeraCodigo(UniMainModule.sql_livre_,seq);
       sql_postGrupMsgdata.AsDateTime := now;
@@ -268,6 +295,7 @@ begin
       lastPositionScrollMemo;
       edtMsg.Text := '';
     end;
+    LimpaArrayEmotion;
   except
       on E: Exception do
       ShowMessage( e.Message);
@@ -303,7 +331,7 @@ begin
            '</br></br> </font> </div>',
               '<div style=" text-align: right;  margin: auto;  width: 90%; background-color:#c4ffff";  > <FONT size=1 COLOR=#0082b5 ><b> De: ' +  sql_msg.FieldByName('denome').AsString + ' - ' + ' Para: ' + sql_msg.FieldByName('paraNome').AsString + ' - ' + sql_msg.FieldByName('data').AsString + ' - ' + sql_msg.FieldByName('hora').AsString +
                '</b></br></br></FONT>' +
-            '<FONT size=2 COLOR="#5c6363" >' + sql_msg.FieldByName('msg').AsString + ' </br></br> </font> </div>'));
+            '<FONT size=3 COLOR="#5c6363" >' + sql_msg.FieldByName('msg').AsString + ' </br></br> </font> </div>'));
       MemoMsg.Lines.Add('</br>');
       MemoMSG.Lines.LineBreak;
       MarcaComoLida;
@@ -537,11 +565,28 @@ begin
   end;
 end;
 
-procedure TfrmChat.edtMsgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TfrmChat.edtMsgClick(Sender: TObject);
 begin
-  if Key = VK_RETURN then
+  pnlContEmoj.Visible := false;
+end;
+
+procedure TfrmChat.edtMsgKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+    if (Key = 13)  then
+   btnSendClick(sender);
+end;
+
+function TfrmChat.emotionToStr(txt: string): string;
+var i :integer;
+begin
+  for I := 0 to High(arrEmo) do
   begin
-    btnSend.Click;
+    result := txt;
+    if arrEmo[i] = '' then
+      exit;
+    txt := StringReplace(txt,'??',arrEmo[i],[]);
+
   end;
 end;
 
@@ -564,6 +609,21 @@ begin
   sendEmotion('128514');
 end;
 
+procedure TfrmChat.lblCafeClick(Sender: TObject);
+begin
+  sendEmotion('9749');
+end;
+
+procedure TfrmChat.lblOculosClick(Sender: TObject);
+begin
+ sendEmotion('128526');
+end;
+
+procedure TfrmChat.lblPensandoClick(Sender: TObject);
+begin
+ sendEmotion('129300');
+end;
+
 procedure TfrmChat.lbP_drClick(Sender: TObject);
 begin
   sendEmotion('129326');
@@ -571,7 +631,7 @@ end;
 
 procedure TfrmChat.lbSmyleClick(Sender: TObject);
 begin
-  sendEmotion('128512');
+  sendEmotion('x1F600');
 end;
 
 procedure TfrmChat.modificaLabel;
@@ -584,6 +644,13 @@ begin
     if (Components[i] is TuniLabel) and (TuniLabel(Components[i]).Name = 'lbNl' + FPanelName) then
       TuniLabel(Components[i]).Caption := iif(naoLidas = '', '✓✓', naoLidas);  //muda o label em tempo de execução para lido ou não lido
   end;
+end;
+
+procedure TfrmChat.LimpaArrayEmotion;
+begin
+  indArrEmo := 0;
+  SetLength(arrEmo, 0);
+  SetLength(arrEmo, 15);
 end;
 
 procedure TfrmChat.BuscaUsuarioschat(prm: string);
@@ -708,7 +775,10 @@ begin
   // link onde está os emoj https://www.w3schools.com/charsets/ref_emoji_smileys.asp
   // usar apenas os numeros da coluna Dec
   // copiar as carinhas e colar no label, no onclick passar o evendo sendEmotion('123456') com a numeração
-  edtMsg.Text := edtMsg.Text + '&#' + aEmo + ';'; //caracters decodifica para enviar os emoj
+
+  edtMsg.Text := edtMsg.Text + '<span style="font-size:18px;">   &#' + aEmo + '; </span>'; //caracters decodifica para enviar os emoj
+  arrEmo[indArrEmo] := '&#' + aEmo + ';';
+  inc(indArrEmo);
 end;
 
 procedure TfrmChat.SetAlteraVisualizado(const Value: Boolean);
@@ -732,6 +802,8 @@ procedure TfrmChat.UniFormShow(Sender: TObject);
 var
   gid: TGUID;
 begin
+  SetLength(arrEmo,15);
+  indArrEmo := 0;
   if PodeAcessar then
   begin
     lbUserOwner.Caption := Copy(UniMainModule.Usuario.Nome,0,20);
@@ -781,6 +853,7 @@ begin
       CbStatusChange(nil);
       alteraSQL := True;
       CarregaUsuarios;
+
     end;
   end;
 end;
