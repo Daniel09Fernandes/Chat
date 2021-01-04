@@ -1,4 +1,4 @@
-# Chat
+# Chat - Client/Server
 Chat ungui, para acoplar ao seu ERP/Projeto
 
 
