@@ -2,7 +2,7 @@
 Chat para ungui
 
 
-Comportamento do chat
+# Comportamento do chat
 Para o projeto atua, o chat se comporta da seguinte maneira:
 
 Na tabela tb_chat_client, os usuarios são liberados para ter acesso, ao liberar, o validador já deixa o usuario "cadastrado",
@@ -16,7 +16,7 @@ Adição de conversa em grupos (em desenvolvimento ainda, porem funcionando)
 tema utilizado mainmodule : uni_mac_yosemite
 
 
-Para rodar o pas/dfm
+# Para rodar o pas/dfm
 *** deve adequar as uses e criar as tabelas referente ***
 
 --- Tabelas necessárias, banco utilizado postgresSQL, porem pode ser montado esta estrutura em qualquer BD ---
