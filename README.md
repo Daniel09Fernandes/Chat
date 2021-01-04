@@ -1,5 +1,5 @@
 # Chat
-Chat para ungui
+Chat ungui, para acoplar ao seu ERP/Projeto
 
 
 # Comportamento do chat
